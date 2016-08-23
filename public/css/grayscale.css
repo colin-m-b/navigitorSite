@@ -3,6 +3,13 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body {
   width: 100%;
   height: 100%;
@@ -153,83 +160,70 @@ a:focus {
     font-size: 26px;
   }
 }
-.btn-circle {
-  width: 70px;
-  height: 70px;
-  margin-top: 15px;
-  padding: 7px 16px;
-  border: 2px solid white;
-  border-radius: 100% !important;
-  font-size: 40px;
-  color: white;
-  background: transparent;
-  -webkit-transition: background 0.3s ease-in-out;
-  -moz-transition: background 0.3s ease-in-out;
-  transition: background 0.3s ease-in-out;
+.intro .intro-body .learn-more {
+  border: 1px solid #42DCA3;
 }
-.btn-circle:hover,
-.btn-circle:focus {
-  outline: none;
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
+.intro .intro-body .learn-more:hover {
+  background: #42DCA3;
+  color: #000;
+  border: 1px solid #42DCA3;
 }
-.btn-circle i.animated {
-  -webkit-transition-property: -webkit-transform;
-  -webkit-transition-duration: 1s;
-  -moz-transition-property: -moz-transform;
-  -moz-transition-duration: 1s;
-}
-.btn-circle:hover i.animated {
-  -webkit-animation-name: pulse;
-  -moz-animation-name: pulse;
-  -webkit-animation-duration: 1.5s;
-  -moz-animation-duration: 1.5s;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-}
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-  50% {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-@-moz-keyframes pulse {
-  0% {
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
-  50% {
-    -moz-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-  100% {
-    -moz-transform: scale(1);
-    transform: scale(1);
-  }
+.about .btn-download:hover {
+  color: #000;
 }
 .content-section {
   padding-top: 100px;
 }
-.download-section {
+.team-section {
   width: 100%;
   padding: 50px 0;
   color: white;
-  background: url(../img/downloads-bg.jpg) no-repeat center center scroll;
+  background: url(../img/team-bg.jpg) no-repeat center center;
   background-color: black;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
+}
+.team-section h2 {
+  text-shadow: 0 0 20px #000;
+}
+.team-member img {
+  border: 7px solid #fff;
+  margin: 0 auto;
+  max-width: 250px;
+}
+.team-member {
+  margin-bottom: 30px;
+}
+.team-member h3 {
+  margin: 10px 0;
+}
+.team-member p {
+  text-shadow: 0 0 20px #000;
+  margin: 0 0 10px;
+}
+.team-member ul {
+  margin-bottom: 0;
+}
+.team-member .social-buttons a {
+  display: block;
+  border: 1px solid #fff;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  font-size: 20px;
+  line-height: 40px;
+  color: #fff;
+  outline: 0;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  transition: all .3s;
+}
+.team-member .social-buttons a:hover {
+  color: #000;
+  border: 1px solid #42DCA3;
+  background-color: #42DCA3;
 }
 #map {
   width: 100%;
@@ -237,10 +231,7 @@ a:focus {
   margin-top: 100px;
 }
 @media (min-width: 767px) {
-  .content-section {
-    padding-top: 250px;
-  }
-  .download-section {
+  .team-section {
     padding: 100px 0;
   }
   #map {
