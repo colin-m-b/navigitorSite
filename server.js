@@ -1,35 +1,16 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-// may need to change config to config.prod later on
-// var config = require('../webpack.config');
-// var webpack = require('webpack');
-// var webpackDevMiddleware = require('webpack-dev-middleware');
-// var webpackHotMiddleware = require('webpack-hot-middleware');
 
-// process.env.PORT sets to hosting service port (Heroku) or 3000
 var PORT = process.env.PORT || 3000;
 var server = app.listen(PORT);
 var io = require('socket.io').listen(server);
 
 app.use(express.static('public'));
-// for debugging, REMOVE FOR PRODUCTION including postman endpoints
-var data = JSON.stringify([{name: 'steve', message: 'commit message by steve'}, {name: 'sarah', message: 'commit message'}]);
-var data2 = JSON.stringify([{name: 'colin', message: 'colin commit message'}, {name: 'binh', message: 'binh commit message'}]);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
-
-
-// hands this compiler off to the middleware for hot reloading
-// var compiler = webpack(config);
-// app.use(webpackDevMiddleware(compiler, {
-// 	noInfo: true,
-// 	// public path simulates publicPath of config file
-// 	publicPath: config.output.publicPath
-// }));
-// app.use(webpackHotMiddleware(compiler));
 
 if (PORT === process.env.PORT) {
   app.use(express.static('./'))
@@ -55,15 +36,15 @@ io.sockets.on('connection', function (socket) {
     socket.emit("echo", msg);
   });
   //listening for commit from local client, then broadcasts to all connected clients
-	socket.on('broadcastCommit', function(arg){
+  socket.on('broadcastCommit', function(arg){
 		console.log('broadcastCommit: ' + arg);
-		io.emit('incomingCommit', arg)
+		io.in(arg.room).emit('incomingCommit', arg.data);
 	});
   // listening for branch change from local client, then broadcasts to all connected clients
 	socket.on('broadcastBranch', function(arg){
 		console.log('Branch server event: ' + arg);
-		io.emit('incomingCommit', arg)
-	});
+		io.in(arg.room).emit('incomingCommit', arg.data)
+  });
   socket.on('disconnect', function(){
     connectedClients--;
     console.log(`Disconnection: now ${connectedClients} are Connected on socket server`);
