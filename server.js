@@ -4,7 +4,7 @@ const config = require('../webpack.config');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const EventController = require('../src/database/event-controller.js')
+//const EventController = require('../src/database/event-controller.js')
 
 // process.env.PORT sets to hosting service port (Heroku) or 3000
 const PORT = process.env.PORT || 3000;
@@ -31,6 +31,12 @@ if (PORT === process.env.PORT) {
 
 console.log('Polling server is running on http://localhost:' + PORT);
 
+app.use(express.static('public'));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, './index.html'))
+});
+
 
 /***************************
 *** Socket Handling + RxJS ***
@@ -40,7 +46,7 @@ TODO: handle subscribe/getRepo functionality on client side
 io.sockets.on('connection', function (socket) {
   // room handling
   socket.on('subscribe', function(data) {
-    EventController.getRepo(data, function(x) {
+    //EventController.getRepo(data, function(x) {
       console.log(x)
     })
     socket.join(data.room)}
@@ -53,7 +59,7 @@ io.sockets.on('connection', function (socket) {
   //listening for Git Action from local client, then broadcasts to all connected clients in team
 	// TODO: handle callback in post method
 	socket.on('broadcastGit', function(arg){
-    EventController.post(arg, function(data) {
+    //EventController.post(arg, function(data) {
 			console.log(data);
     });
 		io.in(arg.room).emit('incomingCommit', arg.data);
