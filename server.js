@@ -48,8 +48,8 @@ io.sockets.on('connection', function (socket) {
   // room handling
   socket.on('subscribe', function(data) {
     //EventController.getRepo(data, function(x) {
-      console.log(x)
-    })
+    //   console.log(x)
+    // })
     socket.join(data.room)}
   );
   socket.on('unsubscribe', function(data) { socket.leave(data.room)});
@@ -61,8 +61,8 @@ io.sockets.on('connection', function (socket) {
 	// TODO: handle callback in post method
 	socket.on('broadcastGit', function(arg){
     //EventController.post(arg, function(data) {
-			console.log(data);
-    });
+		// 	console.log(data);
+    // });
 		io.in(arg.room).emit('incomingCommit', arg.data);
 	});
 });
