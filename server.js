@@ -10,6 +10,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT);
 const io = require('socket.io').listen(server);
+const path = require('path');
 
 /************************************************
 *** Development: Webpack Config/Middleware ***
