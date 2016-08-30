@@ -1,16 +1,27 @@
-var express = require('express');
-var app = express();
-var path = require('path');
+const express = require('express');
+const app = express();
+const config = require('../webpack.config');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+//const EventController = require('../src/database/event-controller.js')
 
-var PORT = process.env.PORT || 3000;
-var server = app.listen(PORT);
-var io = require('socket.io').listen(server);
+// process.env.PORT sets to hosting service port (Heroku) or 3000
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT);
+const io = require('socket.io').listen(server);
 
-app.use(express.static('public'));
-
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, './index.html'))
-});
+/************************************************
+*** Development: Webpack Config/Middleware ***
+**************************************************/
+// hands this compiler off to the middleware for hot reloading
+const compiler = webpack(config);
+app.use(webpackDevMiddleware(compiler, {
+	noInfo: true,
+	// public path simulates publicPath of config file
+	publicPath: config.output.publicPath
+}));
+app.use(webpackHotMiddleware(compiler));
 
 if (PORT === process.env.PORT) {
   app.use(express.static('./'))
@@ -21,44 +32,39 @@ if (PORT === process.env.PORT) {
 console.log('Polling server is running on http://localhost:' + PORT);
 
 
-/*************
-*** Socket Handling ***
-**************/
-var connectedClients = 0;
+/***************************
+*** Socket Handling + RxJS ***
+TODO: handle subscribe/getRepo functionality on client side
+****************************/
+
 io.sockets.on('connection', function (socket) {
-  connectedClients++;
-  console.log(`${connectedClients} are Connected on socket server`);
   // room handling
-  socket.on('subscribe', function(data) { socket.join(data.room); console.log(`joined room:${data.room}`)})
-  socket.on('unsubscribe', function(data) { socket.leave(data.room); console.log(`left room:${data.room}`) })
+  socket.on('subscribe', function(data) {
+    //EventController.getRepo(data, function(x) {
+      console.log(x)
+    })
+    socket.join(data.room)}
+  );
+  socket.on('unsubscribe', function(data) { socket.leave(data.room)});
   // Socket test
   socket.once("echo", function (msg, callback) {
     socket.emit("echo", msg);
   });
-  //listening for commit from local client, then broadcasts to all connected clients
-  socket.on('broadcastCommit', function(arg){
-		console.log('broadcastCommit: ' + arg);
+  //listening for Git Action from local client, then broadcasts to all connected clients in team
+	// TODO: handle callback in post method
+	socket.on('broadcastGit', function(arg){
+    //EventController.post(arg, function(data) {
+			console.log(data);
+    });
 		io.in(arg.room).emit('incomingCommit', arg.data);
 	});
-  // listening for branch change from local client, then broadcasts to all connected clients
-	socket.on('broadcastBranch', function(arg){
-		console.log('Branch server event: ' + arg);
-		io.in(arg.room).emit('incomingCommit', arg.data)
-  });
-  socket.on('disconnect', function(){
-    connectedClients--;
-    console.log(`Disconnection: now ${connectedClients} are Connected on socket server`);
-  })
 });
-
-
-
 
 
 /*************
 *** O Auth ***
 **************/
-// var options = {
+// const options = {
 //   client_id: 'INSERT CLIENT ID',
 //   client_secret: 'INSERT CLIENT SECRET'
 // }
@@ -94,6 +100,5 @@ io.sockets.on('connection', function (socket) {
 //   });
 //   res.redirect('/');
 // });
-
 
 module.exports = server;
