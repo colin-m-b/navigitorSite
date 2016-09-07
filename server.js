@@ -22,6 +22,20 @@ if (PORT === process.env.PORT) {
 
 console.log('Polling server is running on http://localhost:' + PORT);
 
+app.post('/signup', (req, res) => {
+  UserController.add(req, () => {
+    console.log('hi')
+  })
+  //console.log('signed up')
+})
+
+app.post('/verify', (req, res) => {
+  UserController.verify(req, function(data) {
+    console.log('data from server: ', data)
+    res.send(data)
+  })
+  //console.log(req)
+})
 
 /***************************
 *** Socket Handling + RxJS ***
