@@ -10,14 +10,15 @@ var io = require('socket.io').listen(server);
 var bodyParser = require ('body-parser');
 var Rx = require('rxjs/Rx');
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static('./'))
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
 
 // if (PORT === process.env.PORT) {
-//   app.use(express.static('./'))
+//
 // } else {
 //   app.use(express.static('./dist'));
 // }
