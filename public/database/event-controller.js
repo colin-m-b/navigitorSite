@@ -6,7 +6,7 @@ mongoose.connect(MONGO_URI);
 // mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 // mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 
-let eventSchema = new mongoose.Schema({
+var eventSchema = new mongoose.Schema({
   user: {type: String, required: true},
   SHA: String,
   parent: [String],
@@ -20,10 +20,10 @@ var EventController = {}
 
 //create post method for EventController
 EventController.saveEvent = function(arg) {
-  let gitData = JSON.parse([arg.data]);
+  var gitData = JSON.parse([arg.data]);
   console.log('author from db' + gitData.author)
     //create Event model using room property passed from argument as the collection name
-    let Event = mongoose.model(arg.room, eventSchema)
+    var Event = mongoose.model(arg.room, eventSchema)
       var eventToAdd = new Event({
       user: gitData.author,
       SHA: gitData.SHA,
@@ -44,7 +44,7 @@ EventController.saveEvent = function(arg) {
 EventController.getRepo = (arg, callback) => {
     //define which collection we're looking for
 
-    let coll = mongoose.model(arg.room + 's', eventSchema)
+    var coll = mongoose.model(arg.room + 's', eventSchema)
     //console.log(coll)
     //return all docs in collection
     coll.find((err, events) => {
@@ -54,9 +54,9 @@ EventController.getRepo = (arg, callback) => {
 }
 
 EventController.getByTime = (arg, callback) => {
-    let time = Math.floor(arg.time / 1000)
+    var time = Math.floor(arg.time / 1000)
 
-    let coll = mongoose.model(arg.room + 's', eventSchema)
+    var coll = mongoose.model(arg.room + 's', eventSchema)
     coll.find({time: {$gt: time}}, 'user data time', (err, data) => {
         if (err) console.log('getByTime error: ', err)
         callback(data)
