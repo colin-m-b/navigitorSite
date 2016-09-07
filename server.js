@@ -24,14 +24,14 @@ app.get('/', function(req, res) {
 
 console.log('Polling server is running on http://localhost:' + PORT);
 
-app.post('/signup', (req, res) => {
-  UserController.add(req, () => {
+app.post('/signup', function(req, res) {
+  UserController.add(req, function () {
     console.log('hi')
   })
   //console.log('signed up')
 })
 
-app.post('/verify', (req, res) => {
+app.post('/verify', function(req, res) {
   UserController.verify(req, function(data) {
     console.log('data from server: ', data)
     res.send(data)
@@ -45,7 +45,7 @@ TODO: handle subscribe/getRepo functionality on client side
 ****************************/
 io.sockets.on('connection', function(socket){
 	// Room Handling
-	const socketJoinRoomObservable = Rx.Observable.create(function(observer){
+	var socketJoinRoomObservable = Rx.Observable.create(function(observer){
 		socket.on('subscribe', function(data) {
 			try {
 				EventController.getRepo(data, function(x) {
@@ -60,10 +60,10 @@ io.sockets.on('connection', function(socket){
 		);
 	})
 
-	const socketJoinRoomObserver = socketJoinRoomObservable
+	var socketJoinRoomObserver = socketJoinRoomObservable
 		.subscribe(x => console.log('joined team: ' + x), e => 'connection error: ' + e, () => console.log('team connected complete'))
 
-	const socketLeaveRoomObservable = Rx.Observable.create(function(observer){
+	var socketLeaveRoomObservable = Rx.Observable.create(function(observer){
 		socket.on('unsubscribe', function(data) {
 			try{
 				socket.leave(data.room);
@@ -74,11 +74,11 @@ io.sockets.on('connection', function(socket){
 		});
 	});
 
-	const socketLeaveRoomObserver = socketLeaveRoomObservable
+	var socketLeaveRoomObserver = socketLeaveRoomObservable
 		.subscribe(x => console.log('left room: ' + x), e => console.log('error on leave: ' + e),() => console.log('left room completed'))
 
 	// Broadcasting Git Actions from local clients to connected team members
-	const socketGitBroadcastingObservable = Rx.Observable.create(function(observer){
+	var socketGitBroadcastingObservable = Rx.Observable.create(function(observer){
 		socket.on('broadcastGit', function(arg){
 			try {
 				console.log('from server bcast git ' + arg.data)
@@ -90,7 +90,7 @@ io.sockets.on('connection', function(socket){
 		});
 	});
 
-	const socketGitBroadcastingObserver = socketGitBroadcastingObservable
+	var socketGitBroadcastingObserver = socketGitBroadcastingObservable
 		.subscribe(x => console.log('broadcasted'), e => console.log(e), () => console.log('git broadcasted and saved | complete'))
 		//Chat room
 	  socket.on('sendMessage', function (data) {
