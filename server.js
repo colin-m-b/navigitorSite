@@ -1,13 +1,21 @@
-var express = require('express');
-var app = express();
-var path = require('path');
+const express = require('express');
+const app = express();
+const config = require('../webpack.config');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const EventController = require('./public/database/event-controller.js')
+const UserController = require ('./public/database/user-controller.js')
+// process.env.PORT sets to hosting service port (Heroku) or 3000
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT);
+const io = require('socket.io').listen(server);
+const bodyParser = require ('body-parser');
+const Rx = require('rxjs/Rx');
 
-var PORT = process.env.PORT || 3000;
-var server = app.listen(PORT);
-var io = require('socket.io').listen(server);
+
 
 app.use(express.static('public'));
-
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
@@ -115,5 +123,3 @@ app.get('/days', (req, res) => {
   })
 
 })
-
-module.exports = server
