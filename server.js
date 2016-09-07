@@ -4,8 +4,8 @@ const config = require('../webpack.config');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const EventController = require('./public/database/event-controller.js')
-const UserController = require ('./public/database/user-controller.js')
+const EventController = require('../src/database/event-controller.js')
+const UserController = require ('../src/database/user-controller.js')
 // process.env.PORT sets to hosting service port (Heroku) or 3000
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT);
@@ -14,11 +14,24 @@ const bodyParser = require ('body-parser');
 const Rx = require('rxjs/Rx');
 
 
-
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'));
+
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
+
+/************************************************
+*** Development: Webpack Config/Middleware ***
+**************************************************/
+// hands this compiler off to the middleware for hot reloading
+const compiler = webpack(config);
+app.use(webpackDevMiddleware(compiler, {
+	noInfo: true,
+	// public path simulates publicPath of config file
+	publicPath: config.output.publicPath
+}));
+app.use(webpackHotMiddleware(compiler));
 
 if (PORT === process.env.PORT) {
   app.use(express.static('./'))
@@ -27,7 +40,6 @@ if (PORT === process.env.PORT) {
 }
 
 console.log('Polling server is running on http://localhost:' + PORT);
-
 
 /***************************
 *** Socket Handling + RxJS ***
@@ -92,26 +104,24 @@ io.sockets.on('connection', function(socket){
 	  });
 });
 
-
 /***********************
  *** User Sign in/up ***
  ***********************/
 
-app.post('/signup', function (req, res) {
-  UserController.add(req, function() {
+app.post('/signup', (req, res) => {
+  UserController.add(req, () => {
     console.log('hi')
   })
   //console.log('signed up')
 })
 
-app.post('/verify', function (req, res) {
+app.post('/verify', (req, res) => {
   UserController.verify(req, function(data) {
     console.log('data from server: ', data)
     res.send(data)
   })
   //console.log(req)
 })
-
 
 /*****************
  *** Analytics ***
