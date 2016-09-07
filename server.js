@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var EventController = require('./public/database/event-controller.js');
+// var EventController = require('./public/database/event-controller.js');
 // var UserController = require('user-controller.js');
 
 var PORT = process.env.PORT || 3000;
@@ -13,6 +13,7 @@ var Rx = require('rxjs/Rx');
 app.use(express.static('public'));
 // app.use(express.static('./'))
 
+var EventController = require('./public/database/event-controller.js');
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
