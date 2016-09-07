@@ -19,14 +19,14 @@ app.get('/', function(req, res) {
 console.log('Polling server is running on http://localhost:' + PORT);
 
 app.post('/signup', function(req, res) {
-  UserController.add(req, function () {
+  UserController.add(req.body, function () {
     console.log('hi')
   })
   //console.log('signed up')
 })
 
 app.post('/verify', function(req, res) {
-  UserController.verify(req, function(data) {
+  UserController.verify(req.body, function(data) {
     console.log('data from server: ', data)
     res.send(data)
   })
