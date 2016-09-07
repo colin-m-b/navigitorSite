@@ -6,8 +6,8 @@ var SALT_WORK_FACTOR = 10;
 var MONGO_URI = 'mongodb://navigitor:browncouch123@ds019826.mlab.com:19826/navigitor'
 // var MONGO_URI = 'mongodb://localhost/navigitor'
 mongoose.connect(MONGO_URI);
-mongoose.connection.on('connected', function() {console.log('user connected on mLab')})
-mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM USER: ' + e)})
+// mongoose.connection.on('connected', function() {console.log('user connected on mLab')})
+// mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM USER: ' + e)})
 
 //initialize UserController as empty object
 var UserController = {};
