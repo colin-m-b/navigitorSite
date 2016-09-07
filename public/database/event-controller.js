@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var MONGO_URI = 'mongodb://navigitor:browncouch123@ds019826.mlab.com:19826/navigitor'
 // var MONGO_URI = 'mongodb://localhost/test'
 mongoose.connect(MONGO_URI);
@@ -41,23 +41,23 @@ EventController.saveEvent = function(arg) {
 }
 
 //fetch collection/repo
-EventController.getRepo = (arg, callback) => {
+EventController.getRepo = function (arg, callback) {
     //define which collection we're looking for
 
     var coll = mongoose.model(arg.room + 's', eventSchema)
     //console.log(coll)
     //return all docs in collection
-    coll.find((err, events) => {
+    coll.find(function (err, events) {
         if (err) return console.error(err)
         callback(events);
     })
 }
 
-EventController.getByTime = (arg, callback) => {
+EventController.getByTime = function (arg, callback)  {
     var time = Math.floor(arg.time / 1000)
 
     var coll = mongoose.model(arg.room + 's', eventSchema)
-    coll.find({time: {$gt: time}}, 'user data time', (err, data) => {
+    coll.find({time: {$gt: time}}, 'user data time', function (err, data) {
         if (err) console.log('getByTime error: ', err)
         callback(data)
     })

@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
-const SALT_WORK_FACTOR = 10;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 //mongoose.connect('mongodb://ec2-54-152-1-18.compute-1.amazonaws.com');
 
 //define user schema
-const userSchema = new Schema ({
+var userSchema = new Schema ({
     user: {type: String, required: true, unique: true},
     email: {type: String},
     github: {type: String},
@@ -16,11 +16,11 @@ const userSchema = new Schema ({
 //using ES5 due to binding issue using arrow function
 userSchema.pre('save', function(next) {
     //save this as variable for use in bcrypt function
-    let userData = this;
+    var userData = this;
     //generate salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         //hash the password
-        bcrypt.hash(userData.password, salt, (err, hash) => {
+        bcrypt.hash(userData.password, salt, function (err, hash) {
             if (err) return console.error(err);
             //set password to hashed password
             userData.password = hash;
