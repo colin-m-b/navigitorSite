@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-// var EventController = require('./database/event-controller.js')
-// var UserController = require ('./src/database/user-controller.js')
+var EventController = require('./database/event-controller.js')
+var UserController = require ('./src/database/user-controller.js')
 
 var PORT = process.env.PORT || 3000;
 var server = app.listen(PORT);
