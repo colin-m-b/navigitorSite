@@ -4,8 +4,8 @@ const config = require('../webpack.config');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const EventController = require('../src/database/event-controller.js')
-const UserController = require ('../src/database/user-controller.js')
+// const EventController = require('../src/database/event-controller.js')
+// const UserController = require ('../src/database/user-controller.js')
 // process.env.PORT sets to hosting service port (Heroku) or 3000
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT);
@@ -107,29 +107,29 @@ io.sockets.on('connection', function(socket){
 /***********************
  *** User Sign in/up ***
  ***********************/
-
-app.post('/signup', (req, res) => {
-  UserController.add(req, () => {
-    console.log('hi')
-  })
-  //console.log('signed up')
-})
-
-app.post('/verify', (req, res) => {
-  UserController.verify(req, function(data) {
-    console.log('data from server: ', data)
-    res.send(data)
-  })
-  //console.log(req)
-})
-
-/*****************
- *** Analytics ***
- *****************/
-
-app.get('/days', (req, res) => {
-  EventController.getByTime(req, function() {
-    res.send(data)
-  })
-
-})
+// 
+// app.post('/signup', (req, res) => {
+//   UserController.add(req, () => {
+//     console.log('hi')
+//   })
+//   //console.log('signed up')
+// })
+//
+// app.post('/verify', (req, res) => {
+//   UserController.verify(req, function(data) {
+//     console.log('data from server: ', data)
+//     res.send(data)
+//   })
+//   //console.log(req)
+// })
+//
+// /*****************
+//  *** Analytics ***
+//  *****************/
+//
+// app.get('/days', (req, res) => {
+//   EventController.getByTime(req, function() {
+//     res.send(data)
+//   })
+//
+// })
