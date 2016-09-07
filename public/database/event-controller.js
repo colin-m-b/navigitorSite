@@ -9,60 +9,36 @@ mongoose.connect(MONGO_URI);
 // mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 // mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 //
-// let eventSchema = new mongoose.Schema({
-//   user: {type: String, required: true},
-//   SHA: String,
-//   parent: [String],
-//   eventType: String,
-//   message: String,
-//   time: Number
-// });
+let eventSchema = new mongoose.Schema({
+  user: {type: String, required: true},
+  SHA: String,
+  parent: [String],
+  eventType: String,
+  message: String,
+  time: Number
+});
 //
 // //initialize EventController as empty object
 var EventController = {}
 //
 // //create post method for EventController
-// EventController.saveEvent = function(arg) {
-//   let gitData = JSON.parse([arg.data]);
-//   console.log('author from db' + gitData.author)
-//     //create Event model using room property passed from argument as the collection name
-//     let Event = mongoose.model(arg.room, eventSchema);
-//     //create new instance of event
-//     //let eventToAdd = new Event();
-//     //check if data is coming in as array, which will only happen if a new user
-//     //with prior history in Git tree joins team
-//     // if (Array.isArray(arg.data)) {
-//     //     //iterate through array, adding each
-//     //     arg.data.forEach(elem => {
-//     //         //parse user from each element in array
-//     //         //eventToAdd.user = elem.data.substring(83, elem.data.indexOf('<') - 1);
-//     //         //eventToAdd.time = elem.data.substring(elem.data.indexOf('>') + 1, elem.data.indexOf('>') + 12);
-//     //         //eventToAdd.data = JSON.stringify(elem);
-//     //
-//     //         //save event to collection or create new collection
-//     //         //Event.create(eventToAdd)
-//     //       eventToAdd.save(function(err){
-//     //         if(err) console.log('error saving in DB: ' + err)
-//     //       })
-//     //     })
-//     // //else if a single instance of Git event
-//     // } else {
-//       var eventToAdd = new Event({
-//       user: gitData.author,
-//       SHA: gitData.SHA,
-//       parent: gitData.parent,
-//       eventType: gitData.event,
-//       message: gitData.message,
-//       time: parseInt(gitData.time)
-//       });
-//         console.log('newevent: ', eventToAdd)
-//         //save event to collection or create new collection
-//         //Event.create(eventToAdd);
-//         eventToAdd.save(function(err){
-//           if(err) console.log('error saving in DB: ' + err)
-//         })
-//   //  };
-// }
+EventController.saveEvent = function(arg) {
+  let gitData = JSON.parse([arg.data]);
+    //create Event model using room property passed from argument as the collection name
+    let Event = mongoose.model(arg.room, eventSchema);
+      var eventToAdd = new Event({
+      user: gitData.author,
+      SHA: gitData.SHA,
+      parent: gitData.parent,
+      eventType: gitData.event,
+      message: gitData.message,
+      time: parseInt(gitData.time)
+      });
+        //save event to collection or create new collection
+        eventToAdd.save(function(err){
+          if(err) console.log('error saving in DB: ' + err)
+        });
+   };
 //
 // //fetch collection/repo
 // EventController.getRepo = (arg, callback) => {
