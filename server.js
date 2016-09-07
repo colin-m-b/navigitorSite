@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var EventController = require(path.join(__dirname, './public/database/event-controller.js'));
+// var EventController = require('./public/database/event-controller.js');
 // var UserController = require('user-controller.js');
 
 var PORT = process.env.PORT || 3000;
@@ -10,8 +10,8 @@ var io = require('socket.io').listen(server);
 var bodyParser = require ('body-parser');
 var Rx = require('rxjs/Rx');
 
-app.use(express.static('public'));
-// app.use(express.static('./'))
+// app.use(express.static('public'));
+app.use(express.static('./'))
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
