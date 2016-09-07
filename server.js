@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var EventController = require('./database/event-controller.js')
-var UserController = require ('./database/user-controller.js')
+var EventController = require('./database/event-controller.js');
+var UserController = require('./database/user-controller.js');
 
 var PORT = process.env.PORT || 3000;
 var server = app.listen(PORT);
@@ -14,11 +14,11 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
 
-if (PORT === process.env.PORT) {
-  app.use(express.static('./'))
-} else {
-  app.use(express.static('./dist'));
-}
+// if (PORT === process.env.PORT) {
+//   app.use(express.static('./'))
+// } else {
+//   app.use(express.static('./dist'));
+// }
 
 console.log('Polling server is running on http://localhost:' + PORT);
 
