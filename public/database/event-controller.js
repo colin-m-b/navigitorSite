@@ -6,40 +6,40 @@ var MONGO_URI = 'mongodb://navigitor:browncouch123@ds019826.mlab.com:19826/navig
 // // var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
 // //                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 mongoose.connect(MONGO_URI);
-// mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
-// mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
+mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
+mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 //
-let eventSchema = new mongoose.Schema({
-  user: {type: String, required: true},
-  SHA: String,
-  parent: [String],
-  eventType: String,
-  message: String,
-  time: Number
-});
+// let eventSchema = new mongoose.Schema({
+//   user: {type: String, required: true},
+//   SHA: String,
+//   parent: [String],
+//   eventType: String,
+//   message: String,
+//   time: Number
+// });
 //
 // //initialize EventController as empty object
 var EventController = {}
 //
 // //create post method for EventController
-EventController.saveEvent = function(arg) {
-  let gitData = JSON.parse([arg.data]);
-    //create Event model using room property passed from argument as the collection name
-    let Event = mongoose.model(arg.room, eventSchema);
-      var eventToAdd = new Event({
-      user: gitData.author,
-      SHA: gitData.SHA,
-      parent: gitData.parent,
-      eventType: gitData.event,
-      message: gitData.message,
-      time: parseInt(gitData.time)
-      });
-        //save event to collection or create new collection
-        eventToAdd.save(function(err){
-          if(err) console.log('error saving in DB: ' + err)
-        });
-   };
-//
+// EventController.saveEvent = function(arg) {
+//   let gitData = JSON.parse([arg.data]);
+//     //create Event model using room property passed from argument as the collection name
+//     let Event = mongoose.model(arg.room, eventSchema);
+//       var eventToAdd = new Event({
+//       user: gitData.author,
+//       SHA: gitData.SHA,
+//       parent: gitData.parent,
+//       eventType: gitData.event,
+//       message: gitData.message,
+//       time: parseInt(gitData.time)
+//       });
+//         //save event to collection or create new collection
+//         eventToAdd.save(function(err){
+//           if(err) console.log('error saving in DB: ' + err)
+//         });
+//    };
+// //
 // //fetch collection/repo
 // EventController.getRepo = (arg, callback) => {
 //     //define which collection we're looking for
