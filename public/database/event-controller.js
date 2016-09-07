@@ -9,14 +9,14 @@ mongoose.connect(MONGO_URI);
 mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 //
-// let eventSchema = new mongoose.Schema({
-//   user: {type: String, required: true},
-//   SHA: String,
-//   parent: [String],
-//   eventType: String,
-//   message: String,
-//   time: Number
-// });
+let eventSchema = new mongoose.Schema({
+  user: {type: String, required: true},
+  SHA: String,
+  parent: [String],
+  eventType: String,
+  message: String,
+  time: Number
+});
 //
 // //initialize EventController as empty object
 var EventController = {}
