@@ -33,6 +33,12 @@ app.post('/verify', function(req, res) {
   //console.log(req)
 })
 
+app.get('/days', function (req, res) {
+  EventController.getByTime(req, function() {
+    res.send(data)
+  })
+})
+
 /***************************
 *** Socket Handling + RxJS ***
 TODO: handle subscribe/getRepo functionality on client side
