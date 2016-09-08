@@ -42,7 +42,7 @@ UserController.verify = function (req, callback)  {
         return verUser;
     }
     //find user in collection
-    User.findOne({'user': req.body.name}, 'password', function(err, person) {
+    User.findOne({'user': req.body.name}, 'password github', function(err, person) {
         console.log('finding firing')
         //if user not found
         if (!(person)) {
