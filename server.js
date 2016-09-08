@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-const config = require('../webpack.config');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const EventController = require('../src/database/event-controller.js')
-const UserController = require ('../src/database/user-controller.js')
+// const config = require('../webpack.config');
+// const webpack = require('webpack');
+// const webpackDevMiddleware = require('webpack-dev-middleware');
+// const webpackHotMiddleware = require('webpack-hot-middleware');
+const EventController = require('./public/database/event-controller.js')
+const UserController = require ('./public/database/user-controller.js')
 // process.env.PORT sets to hosting service port (Heroku) or 3000
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT);
@@ -20,13 +20,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 *** Development: Webpack Config/Middleware ***
 **************************************************/
 // hands this compiler off to the middleware for hot reloading
-const compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, {
-	noInfo: true,
-	// public path simulates publicPath of config file
-	publicPath: config.output.publicPath
-}));
-app.use(webpackHotMiddleware(compiler));
+// const compiler = webpack(config);
+// app.use(webpackDevMiddleware(compiler, {
+// 	noInfo: true,
+// 	// public path simulates publicPath of config file
+// 	publicPath: config.output.publicPath
+// }));
+// app.use(webpackHotMiddleware(compiler));
 
 if (PORT === process.env.PORT) {
   app.use(express.static('public'))
