@@ -59,7 +59,7 @@ UserController.verify = function (req, callback)  {
             bcrypt.compare(userPwd, hashedPwd, function(err, result) {
                 if (result) {
                     verUser = true;
-                    if (person.github) callback({person: github})
+                    if (person.github) callback({'github': person.github})
                     else (callback(verUser))
                 } else {
                     console.log('invalid password');
