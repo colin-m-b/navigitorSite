@@ -2,14 +2,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
+//mongoose.connect('mongodb://ec2-54-152-1-18.compute-1.amazonaws.com');
+
 //define user schema
 var userSchema = new Schema ({
     user: {type: String, required: true, unique: true},
     email: {type: String},
     github: {type: String},
-    password: {type: String, required: true},
-    team: {type: String}
-});
+    password: {type: String, required: true}
+})
 
 //create pre hook to hash password
 //using ES5 due to binding issue using arrow function
