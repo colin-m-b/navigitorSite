@@ -18,20 +18,15 @@ app.get('/', function(req, res) {
 
 console.log('Polling server is running on http://localhost:' + PORT);
 
-app.post('/signup', function(req, res) {
-  UserController.add(req, function (result) {
-    console.log('data from server: ', data)
-    res.send(result)
-  })
-  //console.log('signed up')
-})
+app.post('/signup', UserController.add, function(req, res){
+  res.send('saved')
+});
 
-app.post('/verify', function(req, res) {
-  UserController.verify(req, function(data) {
-    console.log('data from server: ', data)
-    res.send(data)
-  })
-  //console.log(req)
+  //console.log('signed up')
+
+app.post('/verify', UserController.verify, function(req, res) {
+  var result = req.body.isStored;
+  res.send(result)
 })
 
 app.get('/days', function (req, res) {

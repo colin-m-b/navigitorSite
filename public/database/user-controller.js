@@ -26,10 +26,10 @@ UserController.add = function (req, res, next)  {
     //save NewUser to collection
     NewUser.save(function (err, req){
         if (err) {
-            console.error('err: ', err)
-            res.send(err)
+          console.error('err: ', err)
+          return next(err);
         } else {
-          res.send(true)
+          return next();
         }
     });
 }
@@ -37,17 +37,16 @@ UserController.add = function (req, res, next)  {
 //create method to verify user
 UserController.verify = function (req, callback) {
     //make sure needed info is included
-    var verUser;
     if(!(req.body.name) || !(req.body.password)) {
-        veruser = false;
-        callback(verUser);
+        req.body.isStored = false;
+        return next()
     }
     //find user in collection
     User.findOne({'user': req.body.name}, 'password', function (err, person) {
         //if user not found
         if (!(person)) {
-            verUser = false;
-            callback(verUser)
+            req.body.isStored = false;
+            return next()
         }
         else {
             //get password from req
@@ -57,11 +56,11 @@ UserController.verify = function (req, callback) {
             //verify passwords match
             bcrypt.compare(userPwd, hashedPwd, function (err, result) {
                 if (result) {
-                    verUser = true;
-                    callback(verUser)
+                    req.body.isStored = true;
+                    return next();
                 } else {
-                    verUser = false;
-                    callback(verUser)
+                    req.body.isStored = false;
+                    return next();
                 }
             })
         }

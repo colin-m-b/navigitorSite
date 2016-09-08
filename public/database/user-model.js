@@ -7,8 +7,9 @@ var userSchema = new Schema ({
     user: {type: String, required: true, unique: true},
     email: {type: String},
     github: {type: String},
-    password: {type: String, required: true}
-})
+    password: {type: String, required: true},
+    team: {type: String}
+});
 
 //create pre hook to hash password
 //using ES5 due to binding issue using arrow function
