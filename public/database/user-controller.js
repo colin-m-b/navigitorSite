@@ -14,6 +14,7 @@ var UserController = {};
 
 //create method to add user to collection
 UserController.add = function (req, res, next)  {
+  console.log(req.body.username)
     //initialize new instance of user
     var NewUser = new User({
         user: req.body.username,
