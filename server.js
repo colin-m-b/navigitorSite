@@ -38,6 +38,10 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
 
+app.get('/download', function(req, res) {
+  res.download(path.join(__dirname, './naviGITor.zip'))
+});
+
 
 console.log('Polling server is running on http://localhost:' + PORT);
 

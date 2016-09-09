@@ -5,7 +5,7 @@ var MONGO_URI = 'mongodb://navigitor:browncouch123@ds019826.mlab.com:19826/navig
 // var MONGO_URI = 'mongodb://localhost/test'
 // var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
 //                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
-mongoose.connect(MONGO_URI);
+mongoose.createConnection(MONGO_URI);
 mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 
