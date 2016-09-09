@@ -12,7 +12,6 @@ const server = app.listen(PORT);
 const io = require('socket.io').listen(server);
 const bodyParser = require ('body-parser');
 const Rx = require('rxjs/Rx');
-const path = require('path');
 
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -38,10 +37,6 @@ if (PORT === process.env.PORT) {
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, './index.html'))
 });
-
-// app.get('/download', function(req, res) {
-//
-// });
 
 
 console.log('Polling server is running on http://localhost:' + PORT);
