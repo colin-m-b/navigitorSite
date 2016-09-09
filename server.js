@@ -12,6 +12,7 @@ const server = app.listen(PORT);
 const io = require('socket.io').listen(server);
 const bodyParser = require ('body-parser');
 const Rx = require('rxjs/Rx');
+const path = require('path');
 
 
 app.use(bodyParser.urlencoded({extended: true}))
