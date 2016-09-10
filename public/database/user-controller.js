@@ -33,21 +33,17 @@ UserController.add = function(req, res, next) {
 
 //create method to verify user
 UserController.verify = function (req, callback)  {
-    console.log('verify firing', req.body)
     //make sure needed info is included
     var verUser;
     if(!(req.body.name) || !(req.body.password)) {
         veruser = false;
-        console.log('verUser: ', verUser)
         return verUser;
     }
     //find user in collection
     User.findOne({'user': req.body.name}, 'password github', function(err, person) {
-        console.log('finding firing')
         //if user not found
         if (!(person)) {
             verUser = false;
-            console.log('no person found')
             callback(verUser)
         }
         else {
@@ -62,7 +58,6 @@ UserController.verify = function (req, callback)  {
                     if (person.github) callback({'github': person.github})
                     else (callback(verUser))
                 } else {
-                    console.log('invalid password');
                     verUser = false;
                     callback(verUser)
                 }
