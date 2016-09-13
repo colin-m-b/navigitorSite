@@ -59,7 +59,7 @@ EventController.getRepo = (arg, callback) => {
 
     var coll = mongoose.model(arg.room + 's', eventSchema)
 
-    //return all docs in collection
+    //return all docs in collection 
     coll.find(function(err, events) {
         if (err) return console.error(err)
         callback(events);
