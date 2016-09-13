@@ -6,13 +6,18 @@ mongoose.createConnection(MONGO_URI);
 // mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 // mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 
-var eventSchema = new mongoose.Schema({
+let eventSchema = new mongoose.Schema({
   user: {type: String, required: true},
   SHA: String,
   parent: [String],
   eventType: String,
   message: String,
-  time: Number
+  time: Number,
+  diff: String,
+  diff_stats: {
+    diff_adds: Number,
+    diff_subs: Number
+  }
 });
 
 //initialize EventController as empty object
@@ -20,46 +25,53 @@ var EventController = {}
 
 //create post method for EventController
 EventController.saveEvent = function(arg) {
-  var gitData = JSON.parse([arg.data]);
-  console.log('author from db' + gitData.author)
+  let gitData = JSON.parse([arg.data]);
+  console.log('author from db' + gitData.user)
     //create Event model using room property passed from argument as the collection name
-    var Event = mongoose.model(arg.room, eventSchema)
-      var eventToAdd = new Event({
-      user: gitData.author,
-      SHA: gitData.SHA,
-      parent: gitData.parent,
-      eventType: gitData.event,
-      message: gitData.message,
-      time: parseInt(gitData.time)
+    let Event = mongoose.model(arg.room, eventSchema);
+    //create new instance of event
+    var eventToAdd = new Event({
+    user: gitData.user,
+    SHA: gitData.SHA,
+    parent: gitData.parent,
+    eventType: gitData.eventType,
+    message: gitData.message,
+    time: parseInt(gitData.time),
+    diff: gitData.diff,
+    diffStats: {
+      diffAdds: gitData.diffstats.adds,
+      diffSubs: gitData.diffstats.subs
+    }
+    });
+      //save event to collection or create new collection
+      eventToAdd.save(function(err){
+        if(err) console.log('error saving in DB: ' + err)
       });
-        console.log('newevent: ', eventToAdd)
-        //save event to collection or create new collection
-        eventToAdd.save(function(err){
-          if(err) console.log('error saving in DB: ' + err)
-        })
-  //  };
 }
 
 //fetch collection/repo
-EventController.getRepo = function (arg, callback) {
+EventController.getRepo = (arg, callback) => {
     //define which collection we're looking for
 
-    var coll = mongoose.model(arg.room + 's', eventSchema)
-    //console.log(coll)
+    let coll = mongoose.model(arg.room + 's', eventSchema)
+
     //return all docs in collection
-    coll.find(function (err, events) {
+    coll.find((err, events) => {
         if (err) return console.error(err)
         callback(events);
     })
 }
 
-EventController.getByTime = function (arg, callback)  {
-    var time = Math.floor(arg.time / 1000)
-
-    var coll = mongoose.model(arg.room + 's', eventSchema)
-    coll.find({time: {$gt: time}}, 'user data time', function (err, data) {
+EventController.getByTime = (arg, callback) => {
+  console.log('time: ' + arg.body.time + 'type: ' + typeof arg.body.time)
+    let timeFromUser = Math.floor(arg.body.time / 1000)
+    let coll = mongoose.model(arg.body.room + 's', eventSchema)
+    coll.find({time: {$gt: timeFromUser}}, 'user', (err, data) => {
         if (err) console.log('getByTime error: ', err)
-        callback(data)
+        else {
+          console.log('get by time firing with: ', data);
+          callback(data)
+        }
     })
 }
 
