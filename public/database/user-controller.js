@@ -13,7 +13,7 @@ mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM 
 var UserController = {};
 
 //create method to add user to collection
-UserController.add = function (req, res, next)  {
+UserController.add = function(req, res, next) {
     //initialize new instance of user
     var NewUser = new User({
         user: req.body.username,
@@ -23,27 +23,25 @@ UserController.add = function (req, res, next)  {
         github: req.body.github
     });
     //save NewUser to collection
-    NewUser.save(function (err, req){
+    NewUser.save(function(err, req) {
         if (err) {
             console.error('err: ', err)
-            res.send(err)
-        } else {
-          res.send(true)
+            // res.send('error!!!!')
         }
     });
 }
 
 //create method to verify user
-UserController.verify = function (req, callback) {
-    console.log('verify firing in DB')
+
+UserController.verify = function (req, callback)  {
     //make sure needed info is included
     var verUser;
     if(!(req.body.name) || !(req.body.password)) {
         veruser = false;
-        callback(verUser);
+        return verUser;
     }
     //find user in collection
-    User.findOne({'user': req.body.name}, 'password', function (err, person) {
+    User.findOne({'user': req.body.name}, 'password github', function(err, person) {
         //if user not found
         if (!(person)) {
             console.log('no person found')
@@ -56,19 +54,20 @@ UserController.verify = function (req, callback) {
             //get password from user found in collection
             var hashedPwd = person.password;
             //verify passwords match
-            bcrypt.compare(userPwd, hashedPwd, function (err, result) {
+            bcrypt.compare(userPwd, hashedPwd, function(err, result) {
                 if (result) {
                     console.log('result found')
                     verUser = true;
-                    callback(verUser)
+                    if (person.github) callback({'github': person.github})
+                    else (callback(verUser))
                 } else {
                     console.log('no matching password found')
                     verUser = false;
                     callback(verUser)
                 }
-            })
+            });
         }
-    })
+    });
 }
 
 module.exports = UserController

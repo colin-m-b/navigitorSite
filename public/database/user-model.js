@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
+//mongoose.connect('mongodb://ec2-54-152-1-18.compute-1.amazonaws.com');
+
 //define user schema
 var userSchema = new Schema ({
     user: {type: String, required: true, unique: true},
