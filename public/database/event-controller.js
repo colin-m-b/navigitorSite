@@ -52,7 +52,7 @@ EventController.saveEvent = function(arg) {
       parent: gitData.parent,
       eventType: gitData.eventType,
       message: gitData.message,
-      time: gitData.time
+      time: parseInt(gitData.time)
       });
         //save event to collection or create new collection
         //Event.create(eventToAdd);
