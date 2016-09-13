@@ -1,16 +1,8 @@
 0 info it worked if it ends with ok
-<<<<<<< HEAD
 1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'electron' ]
 2 info using npm@3.10.3
 3 info using node@v6.4.0
-=======
-1 verbose cli [ '/usr/local/Cellar/node/6.5.0/bin/node',
-1 verbose cli   '/usr/local/bin/npm',
-1 verbose cli   'run',
-1 verbose cli   'electron' ]
-2 info using npm@3.10.3
-3 info using node@v6.5.0
->>>>>>> 50ad359ec2a3935f74a5628895339ab29a108742
+]
 4 verbose stack Error: missing script: electron
 4 verbose stack     at run (/usr/local/lib/node_modules/npm/lib/run-script.js:151:19)
 4 verbose stack     at /usr/local/lib/node_modules/npm/lib/run-script.js:61:5
@@ -22,17 +14,12 @@
 4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
 4 verbose stack     at tryToString (fs.js:455:3)
 4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:442:12)
-<<<<<<< HEAD
-5 verbose cwd /Users/colin/Desktop/nav-server-fix
-6 error Darwin 15.6.0
-7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "electron"
-8 error node v6.4.0
-=======
+
 5 verbose cwd /Users/SteveHarlan/Desktop/navigitorSite
 6 error Darwin 15.5.0
 7 error argv "/usr/local/Cellar/node/6.5.0/bin/node" "/usr/local/bin/npm" "run" "electron"
 8 error node v6.5.0
->>>>>>> 50ad359ec2a3935f74a5628895339ab29a108742
+
 9 error npm  v3.10.3
 10 error missing script: electron
 11 error If you need help, you may report this error at:
