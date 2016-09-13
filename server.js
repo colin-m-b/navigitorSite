@@ -128,7 +128,7 @@ app.post('/verify', (req, res) => {
  *****************/
 
 app.get('/days', (req, res) => {
-  EventController.getByTime(req, function() {
+  EventController.getByTime(req, function(data) {
     res.send(data)
   })
 

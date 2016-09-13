@@ -77,7 +77,6 @@ EventController.getRepo = function(arg, callback) {
 
 EventController.getByTime = function(arg, callback) {
     var time = Math.floor(arg.time / 1000)
-
     var coll = mongoose.model(arg.room + 's', eventSchema)
     coll.find({time: {$gt: time}}, 'user data time', function (err, data) {
         if (err) console.log('getByTime error: ', err)
