@@ -6,6 +6,23 @@
 
 // jQuery to collapse the navbar on scroll
 function collapseNavbar() {
+    console.log('greayscale firing')
+    let obj = {}
+obj.username = 'Colin'
+obj.email = 'colin@colin.com'
+obj.password = 'test'
+obj.team = 'testteam'
+obj.github = 'colin-m-b'
+
+$.ajax({
+    data: obj,
+    url: 'http://localhost:3000/verify',
+    method: 'POST',
+    success: (data) => {
+        console.log('success with data: ' + data)
+    }
+})
+
     if ($(".navbar").offset().top > 50) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {

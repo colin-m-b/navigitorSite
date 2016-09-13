@@ -1,18 +1,22 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var EventController = require('./public/database/event-controller.js');
-var UserController = require('./public/database/user-controller.js');
-
-var PORT = process.env.PORT || 3000;
-var server = app.listen(PORT);
-var io = require('socket.io').listen(server);
-var bodyParser = require ('body-parser');
-var Rx = require('rxjs/Rx');
+const express = require('express');
+const app = express();
+const config = require('../webpack.config');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const EventController = require('../src/database/event-controller.js')
+const UserController = require ('../src/database/user-controller.js')
+// process.env.PORT sets to hosting service port (Heroku) or 3000
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT);
+const io = require('socket.io').listen(server);
+const bodyParser = require ('body-parser');
+const Rx = require('rxjs/Rx');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}))
 app.get('/', function(req, res) {
+	console.log('getting')
   res.sendFile(path.join(__dirname, './index.html'))
 });
 
@@ -26,6 +30,8 @@ app.post('/signup', function(req, res) {
 })
 
 app.post('/verify', function(req, res) {
+	console.log('verify firing in server with ' + req.body.username)
+	console.log(UserController.verify(req, function(){ console.log('hi')}))
   UserController.verify(req, function(data) {
     res.send(data)
   })
