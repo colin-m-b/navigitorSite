@@ -9,7 +9,7 @@ mongoose.connect(MONGO_URI);
 mongoose.connection.on('connected', function() {console.log('event connected on mLab')})
 mongoose.connection.on('error', function(e) {console.log('CONNECTION ERROR FROM EVENT: ' + e)})
 
-let eventSchema = new mongoose.Schema({
+var eventSchema = new mongoose.Schema({
   user: {type: String, required: true},
   SHA: String,
   parent: [String],
@@ -28,10 +28,10 @@ var EventController = {}
 
 //create post method for EventController
 EventController.saveEvent = function(arg) {
-  let gitData = JSON.parse([arg.data]);
+  var gitData = JSON.parse([arg.data]);
   console.log('author from db' + gitData.user)
     //create Event model using room property passed from argument as the collection name
-    let Event = mongoose.model(arg.room, eventSchema);
+    var Event = mongoose.model(arg.room, eventSchema);
     //create new instance of event
     var eventToAdd = new Event({
     user: gitData.user,
@@ -57,7 +57,7 @@ EventController.getRepo = (arg, callback) => {
 
     //define which collection we're looking for
 
-    let coll = mongoose.model(arg.room + 's', eventSchema)
+    var coll = mongoose.model(arg.room + 's', eventSchema)
 
     //return all docs in collection
     coll.find(function(err, events) {
@@ -65,11 +65,11 @@ EventController.getRepo = (arg, callback) => {
         callback(events);
     })
 }
-HEAD
+
 EventController.getByTime = (arg, callback) => {
   console.log('time: ' + arg.body.time + 'type: ' + typeof arg.body.time)
-    let timeFromUser = Math.floor(arg.body.time / 1000)
-    let coll = mongoose.model(arg.body.room + 's', eventSchema)
+    var timeFromUser = Math.floor(arg.body.time / 1000)
+    var coll = mongoose.model(arg.body.room + 's', eventSchema)
     coll.find({time: {$gt: timeFromUser}}, 'user', (err, data) => {
         if (err) console.log('getByTime error: ', err)
         else {
@@ -78,33 +78,5 @@ EventController.getByTime = (arg, callback) => {
         }
     })
 }
-// EventController.getUser = (arg, callback) => {
-//     mongoose.connect('mongodb://localhost/test', err => {
-//         if (err) return console.error(err);
-//         var coll = mongoose.model(arg.room + 's', eventSchema)
-//         coll.findOne({'user': arg.user}, 'user data', (err, user) => {
-//             if (err) return console.error(err)
-//             callback(user);
-//             mongoose.connection.close();
-//         })
-//     })
-// }
-
-// EventController.getAllRepos = (arg, callback) => {
-//     mongoose.connect('mongodb://localhost/test', err => {
-//         if (err) return console.error(err);
-//         var collArr = mongoose.connections[0];
-//         // var allEvents = collArr.map(function(elem) {
-//         //     return db[elem].find();
-//         // });
-//         // res.send(allEvents);
-//         callback(collArr)
-//     })
-// }
-// var test = {
-//     room: 'testrepo',
-//     data: '"19cbd65fba1ba345fc927395d572830162f7b1cf 5e860081d9f7ccc7cbc0a64922beed6d6ac09de9 Colin Brownlie <colin@Colins-MacBook-Pro.local> 1472261199 -0700     \\tcommit (merge): fixing merge conflict"'
-// }
-// EventController.post(test)
 
 module.exports = EventController;
